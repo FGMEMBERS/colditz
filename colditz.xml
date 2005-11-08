@@ -1,0 +1,381 @@
+<FDM_CONFIG NAME="colditz" VERSION="1.65" >
+<!--
+  File:     colditz.xml
+  Author:   Steve Hosgood (steve@caederus.com)
+            Initial data taken from Aero-Matic v0.7, for a "0 engine light aircraft".
+	    Data for the "Clark YH" airfoil pinched from Flight & Spaceflight 1, Tutorial 2 (see 'Docs' directory).
+	    Stall characteristics of the Clark YH not modelled due to lack of data.
+	    Roll stability (roll due to beta) reduced empirically (in an attempt to model the machine's lack of dihedral).
+	    Overall drag coefficients increased empirically (in an attempt to model the machine's non-ideal surface quality).
+
+  Inputs:
+    name:          colditz
+    type:          glider
+    max weight:    240.0 lb (empty)
+    wing span:     33.0 ft
+    length:        19.75 ft
+    wing area:     162.0 sq-ft
+    gear type:     skids
+    retractable?:  no
+    # engines:     0
+    engine type:   catapult launch (to be modelled by short-lived rocket engine)
+    engine layout: forward fuselage
+    yaw damper?    no
+
+  From P.Reid's "Latter Days at Colditz":
+    wing loading:   3.45 lb/sq-ft
+    stall speed:     32mph (28 knots)
+    all-up weight:   570lb
+    L/D:	     13:1
+  
+  From testimony of the pilot of the 1999 replica:
+    Glide Ratio:    appx 18:1
+
+-->
+ <METRICS>
+   AC_WINGAREA  162.00
+   AC_WINGSPAN  33.00
+   AC_CHORD      5.00
+   AC_HTAILAREA 23.75
+   AC_HTAILARM  11.00
+   AC_VTAILAREA 16.60
+   AC_LV        12.00
+   AC_IXX       500
+   AC_IYY       330
+   AC_IZZ       815
+   AC_IXZ       0
+   AC_EMPTYWT   240
+<!-- Pilot -->
+   AC_POINTMASS 150.0 55.0 0.0 0.0
+<!-- Passenger ( crushed in behind pilot ) -->
+   AC_POINTMASS 150.0 80.0 0.0 0.0
+   AC_CGLOC     70.0  0.0 -12.0
+   AC_AERORP    60.0  0.0  0.0
+   AC_EYEPTLOC  55.0  0.0 -12.0
+ </METRICS>
+ <UNDERCARRIAGE>
+  AC_GEAR LEFT_NOSESKID   30.81  -8.0 -50.0 2000 500 0.6 0.8 0.6 FIXED NONE 0 FIXED
+  AC_GEAR RIGHT_NOSESKID  30.81   8.0 -50.0 2000 500 0.6 0.8 0.6 FIXED NONE 0 FIXED
+  AC_GEAR LEFT_WING       94.8 -180.0   0.0 2000 500 0.6 0.8 0.6 FIXED NONE 0 FIXED
+  AC_GEAR RIGHT_WING      94.8  180.0   0.0 2000 500 0.6 0.8 0.6 FIXED NONE 0 FIXED
+  AC_GEAR TAILSKID       225.0     0  -20.0 2000 500 0.6 0.8 0.6 FIXED NONE 0 FIXED
+ </UNDERCARRIAGE>
+ <PROPULSION>
+<!-- Doesn't work
+  <AC_ENGINE FILE="catapult">
+    XLOC 225
+    YLOC 0
+    ZLOC 0
+    PITCH 0
+    YAW 0
+    FEED 0
+    <AC_THRUSTER FILE="xlr99_nozzle">
+      XLOC 225
+      YLOC 0
+      ZLOC 0
+      PITCH 0
+      YAW 0
+    </AC_THRUSTER>
+  </AC_ENGINE>
+  <AC_TANK TYPE="FUEL" NUMBER="0">
+    XLOC 100.0 
+    YLOC 0 
+    ZLOC 0 
+    RADIUS 1 
+    CAPACITY  2.5
+    CONTENTS  2.5
+  </AC_TANK>
+  <AC_TANK TYPE="FUEL" NUMBER="1">
+    XLOC 100.0 
+    YLOC 0 
+    ZLOC 0 
+    RADIUS 1 
+    CAPACITY  2.5
+    CONTENTS  2.5
+  </AC_TANK>
+ -->
+ </PROPULSION>
+ <FLIGHT_CONTROL NAME="colditz">
+   <COMPONENT NAME="Pitch Trim Sum" TYPE="SUMMER">
+      INPUT   fcs/elevator-cmd-norm
+      INPUT   fcs/pitch-trim-cmd-norm
+      CLIPTO  -1 1
+   </COMPONENT>
+   <COMPONENT NAME="Elevator Control" TYPE="AEROSURFACE_SCALE">
+      INPUT   fcs/pitch-trim-sum
+      MIN     -0.350
+      MAX      0.300
+      OUTPUT  fcs/elevator-pos-rad
+   </COMPONENT>
+   <COMPONENT NAME="Roll Trim Sum" TYPE="SUMMER">
+      INPUT   fcs/aileron-cmd-norm
+      INPUT   fcs/roll-trim-cmd-norm
+      CLIPTO  -1 1
+   </COMPONENT>
+   <COMPONENT NAME="Left Aileron Control" TYPE="AEROSURFACE_SCALE">
+      INPUT   fcs/roll-trim-sum
+      MIN    -0.35
+      MAX     0.35
+      OUTPUT  fcs/left-aileron-pos-rad
+   </COMPONENT>
+   <COMPONENT NAME="Right Aileron Control" TYPE="AEROSURFACE_SCALE">
+      INPUT  -fcs/roll-trim-sum
+      MIN    -0.35
+      MAX     0.35
+      OUTPUT  fcs/right-aileron-pos-rad
+   </COMPONENT>
+   <COMPONENT NAME="Rudder Command Sum" TYPE="SUMMER">
+      INPUT   fcs/rudder-cmd-norm
+      INPUT   fcs/yaw-trim-cmd-norm
+      CLIPTO  -1 1
+   </COMPONENT>
+   <COMPONENT NAME="Rudder Control" TYPE="AEROSURFACE_SCALE">
+      INPUT   fcs/rudder-command-sum
+      MIN     -0.35
+      MAX      0.35
+      OUTPUT  fcs/rudder-pos-rad
+   </COMPONENT>
+   <COMPONENT NAME="Spoiler Control" TYPE="AEROSURFACE_SCALE">
+      INPUT   fcs/spoiler-cmd-norm
+      MIN     0
+      MAX     1.04895 
+      OUTPUT  fcs/spoiler-pos-rad
+   </COMPONENT>
+   <COMPONENT NAME="Flaps Control" TYPE="KINEMAT">
+     INPUT   fcs/flap-cmd-norm
+     DETENTS 3
+             0   0
+             15  4
+             30  3
+     OUTPUT  fcs/flap-pos-deg
+   </COMPONENT>
+   <COMPONENT NAME="Gear Control" TYPE="KINEMAT">
+     INPUT   gear/gear-cmd-norm
+     DETENTS 2
+             0   0
+             1   5
+     OUTPUT  gear/gear-pos-norm
+   </COMPONENT>
+   <COMPONENT NAME="Speedbrake Control" TYPE="KINEMAT">
+     INPUT   fcs/speedbrake-cmd-norm
+     DETENTS 2
+             0   0
+             1   1
+     OUTPUT  fcs/speedbrake-pos-norm
+   </COMPONENT>
+ </FLIGHT_CONTROL>
+ <AERODYNAMICS>
+  AC_HYSTLIMITS   0.24  0.31
+  <AXIS NAME="LIFT">
+     <GROUP NAME="Cl">
+        <FACTOR NAME="kCLge" TYPE="VECTOR">
+          Change_in_lift_due_to_ground_effect
+          13
+          aero/h_b-mac-ft
+          none
+          0.0   1.203
+          0.1   1.127
+          0.15  1.090
+          0.2   1.073
+          0.3   1.046
+          0.4   1.055
+          0.5   1.019
+          0.6   1.013
+          0.7   1.008
+          0.8   1.006
+          0.9   1.003
+          1.0   1.002
+          1.1   1.0
+        </FACTOR>
+    <COEFFICIENT NAME="CLalpha" TYPE="TABLE">
+      Lift_due_to_alpha_for_Clark_YH
+      16 2
+      aero/alpha-rad aero/stall-hyst-norm
+      aero/qbar-psf|metrics/Sw-sqft
+                 0       1
+      -0.070   -0.09   -0.09
+      -0.035    0.05    0.05
+       0.000    0.20    0.20
+       0.035    0.36    0.36
+       0.070    0.51	0.51
+       0.105    0.66    0.66
+       0.140    0.80    0.80
+       0.175    0.94    0.94
+       0.209    1.06    1.06
+       0.244    1.21    1.15
+       0.279    1.33    1.25
+       0.314    1.43    1.30
+       0.332    1.36    1.26
+       0.349    1.26    1.26
+       0.436    0.97    0.97
+       0.524    0.81    0.81
+    </COEFFICIENT>
+    <COEFFICIENT NAME="dCLsp" TYPE="VALUE">
+       Delta_Lift_due_to_spoilers
+       aero/qbar-psf|metrics/Sw-sqft|fcs/spoiler-pos-rad
+       0.000
+    </COEFFICIENT>
+    <COEFFICIENT NAME="CLde" TYPE="VALUE">
+       Lift_due_to_Elevator_Deflection
+       aero/qbar-psf|metrics/Sw-sqft|fcs/elevator-pos-rad
+       0.2
+    </COEFFICIENT>
+    </GROUP>
+  </AXIS>
+  <AXIS NAME="DRAG">
+    <COEFFICIENT NAME="CD0" TYPE="TABLE">
+       Drag_at_zero_lift_for_Clark_YH
+       16 2
+       aero/alpha-rad aero/stall-hyst-norm
+       aero/qbar-psf|metrics/Sw-sqft
+                 0       1
+      -0.070    0.010   0.010
+      -0.035    0.009   0.009
+       0.000    0.010   0.010
+       0.035    0.015   0.015
+       0.070    0.022	0.022
+       0.105    0.033   0.033
+       0.140    0.045   0.045
+       0.175    0.062   0.062
+       0.209    0.083   0.083
+       0.244    0.103   0.103
+       0.279    0.125   0.125
+       0.314    0.146   0.146
+       0.332    0.170   0.170
+       0.349    0.211   0.211
+       0.436    0.324   0.324
+       0.524    0.430   0.430
+    </COEFFICIENT>
+    <COEFFICIENT NAME="CDi" TYPE="VALUE">
+       Induced_drag
+       aero/qbar-psf|metrics/Sw-sqft|aero/cl-squared-norm
+       0.03
+    </COEFFICIENT>
+    <COEFFICIENT NAME="CDmach" TYPE="VECTOR">
+       Drag_due_to_mach
+       4
+       velocities/mach-norm
+       aero/qbar-psf|metrics/Sw-sqft
+       0.0       0.000
+       0.2       0.001
+       0.4       0.025
+       1.0       0.300
+    </COEFFICIENT>
+    <COEFFICIENT NAME="CDflap" TYPE="VALUE">
+       Drag_due_to_flaps
+       aero/qbar-psf|metrics/Sw-sqft|fcs/components/flaps-control/output-norm
+       0.000
+    </COEFFICIENT>
+    <COEFFICIENT NAME="CDgear" TYPE="VALUE">
+       Drag_due_to_gear
+       aero/qbar-psf|metrics/Sw-sqft|gear/gear-pos-norm
+       0.000
+    </COEFFICIENT>
+    <COEFFICIENT NAME="CDsp" TYPE="VALUE">
+       Drag_due_to_spoilers
+       aero/qbar-psf|metrics/Sw-sqft|fcs/spoiler-pos-rad
+       0.000
+    </COEFFICIENT>
+    <COEFFICIENT NAME="CDbeta" TYPE="VECTOR">
+       Drag_due_to_sideslip
+       5
+       aero/beta-rad
+       aero/qbar-psf|metrics/Sw-sqft
+       -1.57       1.230
+       -0.26       0.050
+        0.00       0.00
+        0.26       0.050
+        1.57       1.230
+    </COEFFICIENT>
+    <COEFFICIENT NAME="CDde" TYPE="VALUE">
+       Drag_due_to_Elevator_Deflection
+       aero/qbar-psf|metrics/Sw-sqft|fcs/elevator-pos-norm
+       0.024
+    </COEFFICIENT>
+  </AXIS>
+  <AXIS NAME="SIDE">
+    <COEFFICIENT NAME="CYb" TYPE="VALUE">
+       Side_force_due_to_beta
+       aero/qbar-psf|metrics/Sw-sqft|aero/beta-rad
+       -1
+    </COEFFICIENT>
+  </AXIS>
+  <AXIS NAME="ROLL">
+    <COEFFICIENT NAME="Clb" TYPE="VALUE">
+       Roll_moment_due_to_beta
+       aero/qbar-psf|metrics/Sw-sqft|metrics/bw-ft|aero/beta-rad
+       -0.03
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Clp" TYPE="VALUE">
+       Roll_moment_due_to_roll_rate
+       aero/qbar-psf|metrics/Sw-sqft|metrics/bw-ft|aero/bi2vel|velocities/p-aero-rad_sec
+       -0.3
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Clr" TYPE="VALUE">
+       Roll_moment_due_to_yaw_rate
+       aero/qbar-psf|metrics/Sw-sqft|metrics/bw-ft|aero/bi2vel|velocities/r-aero-rad_sec
+       0.15
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Clda" TYPE="VECTOR">
+       Roll_moment_due_to_aileron
+       2
+       velocities/mach-norm
+       aero/qbar-psf|metrics/Sw-sqft|metrics/bw-ft|fcs/left-aileron-pos-rad
+       0.0       0.06
+       2.0       0.020
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Cldr" TYPE="VALUE">
+       Roll_moment_due_to_rudder
+       aero/qbar-psf|metrics/Sw-sqft|metrics/bw-ft|fcs/rudder-pos-rad
+       0.01
+    </COEFFICIENT>
+  </AXIS>
+  <AXIS NAME="PITCH">
+    <COEFFICIENT NAME="Cmalpha" TYPE="VALUE">
+       Pitch_moment_due_to_alpha
+       aero/qbar-psf|metrics/Sw-sqft|metrics/cbarw-ft|aero/alpha-rad
+       -0.5
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Cmde" TYPE="VECTOR">
+       Pitch_moment_due_to_elevator
+       2
+       velocities/mach-norm
+       aero/qbar-psf|metrics/Sw-sqft|metrics/cbarw-ft|fcs/elevator-pos-rad
+       0.0       -0.8
+       2.0       -0.200
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Cmq" TYPE="VALUE">
+       Pitch_moment_due_to_pitch_rate
+       aero/qbar-psf|metrics/Sw-sqft|metrics/cbarw-ft|aero/ci2vel|velocities/q-aero-rad_sec
+       -9
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Cmadot" TYPE="VALUE">
+       Pitch_moment_due_to_alpha_rate
+       aero/qbar-psf|metrics/Sw-sqft|metrics/cbarw-ft|aero/ci2vel|aero/alphadot-rad_sec
+       -12
+    </COEFFICIENT>
+  </AXIS>
+  <AXIS NAME="YAW">
+    <COEFFICIENT NAME="Cnb" TYPE="VALUE">
+       Yaw_moment_due_to_beta
+       aero/qbar-psf|metrics/Sw-sqft|metrics/bw-ft|aero/beta-rad
+       0.12
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Cnr" TYPE="VALUE">
+       Yaw_moment_due_to_yaw_rate
+       aero/qbar-psf|metrics/Sw-sqft|metrics/bw-ft|aero/bi2vel|velocities/r-aero-rad_sec
+       -0.15
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Cndr" TYPE="VALUE">
+       Yaw_moment_due_to_rudder
+       aero/qbar-psf|metrics/Sw-sqft|metrics/bw-ft|fcs/rudder-pos-rad
+       -0.03
+    </COEFFICIENT>
+    <COEFFICIENT NAME="Cnda" TYPE="VALUE">
+       Adverse_yaw
+       aero/qbar-psf|metrics/Sw-sqft|metrics/bw-ft|fcs/left-aileron-pos-rad
+       -0.02
+    </COEFFICIENT>
+  </AXIS>
+ </AERODYNAMICS>
+</FDM_CONFIG>

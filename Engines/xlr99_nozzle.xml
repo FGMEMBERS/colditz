@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<FG_NOZZLE NAME="Colditz Glider Nozzle">
+  <!--
+    PE      = Nozzle exit pressure, psf.
+    EXPR    = Nozzle expansion ratio, Ae/At, sqft.
+    NZL_EFF = Nozzle efficiency, 0.0 - 1.0
+    DIAM    = Nozzle diameter, ft.
+  -->
+  PE     2160
+  EXPR    7.11
+  NZL_EFF 1.0
+  DIAM    0.295
+</FG_NOZZLE>
+
