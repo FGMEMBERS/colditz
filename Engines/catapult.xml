@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+  File:     catapult.xml
+  ( Simulates the effect of a bathtub containing 800kg of concrete falling
+    vertically, pulling a 250kg glider. Fueltank size limits the thrust to
+    a single 2.2 second "firing". )
+  Author:   Aero-Matic v 0.7
+
+  Inputs:
+    name:           catapult
+    type:           rocket
+    thrust:         1866N (419.4768 lb)
+    augmented?      no
+    injected?       no
+-->
+
+<FG_ROCKET NAME="catapult">
+  SHR              1.20
+  MAX_PC       10584.0
+  VARIANCE         0.10
+  PROP_EFF         1.0
+  MAXTHROTTLE      1.0
+  MINTHROTTLE      1.0
+  SLFUELFLOWMAX    1.1
+  SLOXIFLOWMAX     1.1
+</FG_ROCKET>
+

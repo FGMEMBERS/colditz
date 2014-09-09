@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+Colditz Glider JSBSim config file
+Steve Hosgood, steve@caederus.com (flight)
+Josh Babcock, jbabcock@atlantech.net (model)
+************************************************************************
+-->
+
+<PropertyList>
+
+ <sim>
+
+  <description>Colditz Escape Glider</description>
+  <author>Steve Hosgood, Josh Babcock</author>
+ 
+  <flight-model>jsb</flight-model>
+  <aero>colditz</aero>
+
+  <startup>
+   <units>feet</units>
+  </startup>
+
+  <presets>
+   <onground>false</onground>
+   <speed-set>knots</speed-set>
+   <airspeed-kt type="double">40.0</airspeed-kt>
+   <altitude-ft type="double">3000.0</altitude-ft>
+  </presets>
+  
+  <sound>
+   <path>Aircraft/colditz/glider-sound.xml</path>
+  </sound>
+ 
+  <virtual-cockpit archive="y">true</virtual-cockpit>
+  <allow-toggle-cockpit archive="y">false</allow-toggle-cockpit>
+
+  <chase-distance-m type="double" archive="y">-20.0</chase-distance-m>
+
+  <panel>
+   <path>Aircraft/colditz/Panels/glider-panel.xml</path>
+   <visibility archive="y">false</visibility>
+   <x-offset>256</x-offset>
+  </panel>
+
+  <view n="0">
+   <internal archive="y">true</internal>
+   <config>
+    <z-offset-m archive="y" type="double">1.3</z-offset-m>
+    <y-offset-m archive="y" type="double">0.55</y-offset-m>
+   </config>
+  </view>
+
+  <systems>
+   <electrical>
+    <path>Aircraft/colditz/null-electrical.xml</path>
+    <serviceable archive="y">false</serviceable>
+   </electrical>
+  </systems>
+
+  <model>
+    <path>Aircraft/colditz/Models/colditz-model.xml</path>
+  </model>
+
+  <ai>
+   <scenario>thermal_demo</scenario>
+  </ai>
+
+</sim>
+
+<controls>
+  <elevator-trim>0.00367</elevator-trim>
+  <throttle>0.0</throttle>
+</controls>
+
+<environment>
+ <clouds>
+  <status>false</status>
+ </clouds>
+</environment>
+
+</PropertyList>
