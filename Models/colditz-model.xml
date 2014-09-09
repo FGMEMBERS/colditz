@@ -1,0 +1,424 @@
+<?xml version="1.0"?>
+<!-- (c) 2005 Josh Babcock -->
+
+<PropertyList>
+
+ <path>colditz.ac</path>
+
+ <!-- Instruments -->
+ <!--
+  The wind ribbon is the only instrument. It reflects the airspeed vector by acting as a windsock
+  and spinning realative to airspeed. There is a built-in dead zone to filter out jitter, though
+  it would probably be better to implement a low pass filter in NASAL. It also droops when the
+  airspeed falls below about 15 kts.
+ -->
+
+ <!-- AOA -->
+ <animation>
+  <type>rotate</type>
+  <object-name>WindIndicator</object-name>
+  <property>fdm/jsbsim/aero/alpha-deg</property>
+  <interpolation>
+   <entry>
+    <ind>-90</ind>
+    <dep>-90</dep>
+   </entry>
+   <entry>
+    <ind>-2</ind>
+    <dep>0</dep>
+   </entry>
+   <entry>
+    <ind>0</ind>
+    <dep>0</dep>
+   </entry>
+   <entry>
+    <ind>2</ind>
+    <dep>0</dep>
+   </entry>
+   <entry>
+    <ind>90</ind>
+    <dep>90</dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>0.732</x-m>
+   <z-m>0.578</z-m>
+  </center>
+  <axis>
+   <y>-1</y>
+  </axis>
+ </animation>
+
+ <!-- Slip -->
+ <animation>
+  <type>rotate</type>
+  <object-name>WindIndicator</object-name>
+  <property>fdm/jsbsim/aero/beta-deg</property>
+  <interpolation>
+   <entry>
+    <ind>-90</ind>
+    <dep>-90</dep>
+   </entry>
+   <entry>
+    <ind>-2</ind>
+    <dep>0</dep>
+   </entry>
+   <entry>
+    <ind>0</ind>
+    <dep>0</dep>
+   </entry>
+   <entry>
+    <ind>2</ind>
+    <dep>0</dep>
+   </entry>
+   <entry>
+    <ind>90</ind>
+    <dep>90</dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>0.732</x-m>
+   <z-m>0.578</z-m>
+  </center>
+  <axis>
+   <z>-1</z>
+  </axis>
+ </animation>
+
+ <!-- Low speed ASI -->
+ <animation>
+  <type>rotate</type>
+  <object-name>WindIndicator</object-name>
+  <property>velocities/airspeed-kt</property>
+  <interpolation>
+   <entry>
+    <ind>-100</ind>
+    <dep>90</dep>
+   </entry>
+   <entry>
+    <ind>0</ind>
+    <dep>90</dep>
+   </entry>
+   <entry>
+    <ind>3.5</ind>
+    <dep>85</dep>
+   </entry>
+   <entry>
+    <ind>5.0</ind>
+    <dep>80</dep>
+   </entry>
+   <entry>
+    <ind>6.1</ind>
+    <dep>75</dep>
+   </entry>
+   <entry>
+    <ind>8.6</ind>
+    <dep>60</dep>
+   </entry>
+   <entry>
+    <ind>12.2</ind>
+    <dep>30</dep>
+   </entry>
+   <entry>
+    <ind>15</ind>
+    <dep>0</dep>
+   </entry>
+  </interpolation>
+  <center>
+   <x-m>0.732</x-m>
+   <z-m>0.578</z-m>
+  </center>
+  <axis>
+   <y>1</y>
+  </axis>
+ </animation>
+
+ <!-- High speed ASI -->
+ <animation>
+  <type>spin</type>
+  <object-name>WindIndicator</object-name>
+  <property>velocities/airspeed-kt</property>
+  <factor>4.5</factor>
+  <center>
+   <x-m>0.732</x-m>
+   <z-m>0.578</z-m>
+  </center>
+  <axis>
+   <x>1</x>
+  </axis>
+        <!-- Spin doesn't seem to take interpolations, so I have substituted a factor tag
+	     Someday maybe we can comment this block back in.
+        <interpolation>
+         <entry>
+          <ind>0</ind>
+          <dep>0</dep>
+         </entry>
+         <entry>
+          <ind>5</ind>
+          <dep>0</dep>
+         </entry>
+         <entry>
+          <ind>6</ind>
+          <dep>100</dep>
+         </entry>
+         <entry>
+          <ind>9</ind>
+          <dep>800</dep>
+         </entry>
+         <entry>
+          <ind>30</ind>
+          <dep>2000</dep>
+         </entry>
+         <entry>
+          <ind>105</ind>
+          <dep>4000</dep>
+         </entry>
+         <entry>
+          <ind>200</ind>
+          <dep>4000</dep>
+         </entry>
+        </interpolation>
+        -->
+ </animation>
+  
+ <!-- Controls -->
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Stick</object-name>
+  <property>controls/flight/elevator</property>
+  <factor>20</factor>
+  <center>
+   <x-m>0.87</x-m>
+   <z-m>-0.39</z-m>
+  </center>
+  <axis>
+   <y>-1</y>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Stick</object-name>
+  <property>controls/flight/aileron</property>
+  <factor>20</factor>
+  <center>
+   <x-m>0.87</x-m>
+   <z-m>-0.39</z-m>
+  </center>
+  <axis>
+   <x>-1</x>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>RudderBar</object-name>
+  <property>controls/flight/rudder</property>
+  <factor>30</factor>
+  <center>
+   <x-m>0.51</x-m>
+   <z-m>-0.24</z-m>
+  </center>
+  <axis>
+   <z>-1</z>
+  </axis>
+ </animation>
+
+ <!-- Control surfaces -->
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Rudder</object-name>
+  <property>surface-positions/rudder-pos-norm</property>
+  <factor>20</factor>
+  <center>
+   <x-m>5.23</x-m>
+  </center>
+  <axis>
+   <z>1</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Elevator</object-name>
+  <property>surface-positions/elevator-pos-norm</property>
+  <factor>20</factor>
+  <center>
+   <x-m>5.23</x-m>
+   <z-m>0.36</z-m>
+  </center>
+  <axis>
+   <y>1</y>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>LeftAileron</object-name>
+  <property>surface-positions/left-aileron-pos-norm</property>
+  <factor>20</factor>
+  <center>
+   <x-m>2.46</x-m>
+   <z-m>0.59</z-m>
+  </center>
+  <axis>
+   <y>1</y>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>RightAileron</object-name>
+  <property>surface-positions/right-aileron-pos-norm</property>
+  <factor>20</factor>
+  <center>
+   <x-m>2.46</x-m>
+   <z-m>0.59</z-m>
+  </center>
+  <axis>
+   <y>1</y>
+  </axis>
+ </animation>
+
+ <!-- Shadow -->
+
+ <animation>
+  <type>rotate</type>
+  <name>fu_pitch</name>
+  <object-name>Shadow</object-name>
+  <property>orientation/pitch-deg</property>
+  <axis>
+   <y>-1</y>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <name>fu_roll</name>
+  <object-name>Shadow</object-name>
+  <property>orientation/roll-deg</property>
+  <axis>
+   <x>1</x>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>translate</type>
+  <name>fu_translate</name>
+  <object-name>Shadow</object-name>
+  <property>position/altitude-agl-ft</property>
+  <factor>.3</factor>
+  <axis>
+   <z>-1</z>
+  </axis>
+ </animation>
+
+ <!-- LOD -->
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>10000</max-m>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Headrest</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Stick</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Frame</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>WindStick</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>WindIndicator</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>TowHook</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Roller</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Bushing1</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Bushing2</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Bushing3</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Bracket</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Bolts</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>Skid</object-name>
+ </animation>
+
+ <animation>
+  <type>range</type>
+  <min-m>0</min-m>
+  <max-m>100</max-m>
+  <object-name>PylonBrackets</object-name>
+ </animation>
+
+</PropertyList>
