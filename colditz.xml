@@ -167,6 +167,19 @@
             <output>fcs/elevator-pos-rad</output>
         </aerosurface_scale>
 
+        <aerosurface_scale name="Elevator Position Normalized">
+            <input>fcs/elevator-pos-deg</input>
+            <domain>
+  		<min>-20</min>
+  		<max>20</max>
+            </domain>
+            <range>
+        	<min>-1</min>
+        	<max>1</max>
+            </range>
+            <output>fcs/elevator-pos-norm</output>
+        </aerosurface_scale>
+
         <summer name="Roll Trim Sum">
             <input>fcs/aileron-cmd-norm</input>
             <input>fcs/roll-trim-cmd-norm</input>
@@ -185,6 +198,19 @@
             <output>fcs/left-aileron-pos-rad</output>
         </aerosurface_scale>
 
+        <aerosurface_scale name="Left Aileron Position Normalized">
+            <input>fcs/left-aileron-pos-deg</input>
+            <domain>
+  		<min>-20</min>
+  		<max>20</max>
+            </domain>
+            <range>
+        	<min>-1</min>
+        	<max>1</max>
+            </range>
+            <output>fcs/left-aileron-pos-norm</output>
+        </aerosurface_scale>
+
         <aerosurface_scale name="Right Aileron Control">
             <input>-fcs/roll-trim-sum</input>
             <range>
@@ -194,6 +220,19 @@
             <output>fcs/right-aileron-pos-rad</output>
         </aerosurface_scale>
 
+        <aerosurface_scale name="Right Aileron Position Normalized">
+            <input>fcs/right-aileron-pos-deg</input>
+            <domain>
+  		<min>-20</min>
+  		<max>20</max>
+            </domain>
+            <range>
+        	<min>-1</min>
+        	<max>1</max>
+            </range>
+            <output>fcs/right-aileron-pos-norm</output>
+        </aerosurface_scale>
+
         <summer name="Rudder Command Sum">
             <input>fcs/rudder-cmd-norm</input>
             <input>fcs/yaw-trim-cmd-norm</input>
@@ -201,6 +240,7 @@
                 <min>-1</min>
                 <max>1</max>
             </clipto>
+	    <output>fcs/rudder-pos-norm</output>
         </summer>
 
         <aerosurface_scale name="Rudder Control">
