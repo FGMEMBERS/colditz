@@ -51,6 +51,48 @@ Josh Babcock, jbabcock@atlantech.net (model)
    </config>
   </view>
 
+  <view n="1">
+   <config>
+    <target-y-offset-m archive="y" type="double">-0.135</target-y-offset-m>
+    <target-z-offset-m archive="y" type="double">1.74</target-z-offset-m>
+   </config>
+  </view>
+
+  <view n="2">
+   <config>
+    <target-y-offset-m archive="y" type="double">-0.135</target-y-offset-m>
+    <target-z-offset-m archive="y" type="double">1.74</target-z-offset-m>
+  </config>
+  </view>
+
+  <view n="3">
+   <config>
+    <target-y-offset-m archive="y" type="double">-0.135</target-y-offset-m>
+    <target-z-offset-m archive="y" type="double">1.74</target-z-offset-m>
+   </config>
+  </view>
+
+  <view n="4">
+   <config>
+    <target-y-offset-m archive="y" type="double">-0.135</target-y-offset-m>
+    <target-z-offset-m archive="y" type="double">1.74</target-z-offset-m>
+   </config>
+  </view>
+
+  <view n="5">
+   <config>
+    <target-y-offset-m archive="y" type="double">-0.135</target-y-offset-m>
+    <target-z-offset-m archive="y" type="double">1.74</target-z-offset-m>
+   </config>
+  </view>
+
+  <view n="6">
+   <config>
+    <target-y-offset-m archive="y" type="double">-0.135</target-y-offset-m>
+    <target-z-offset-m archive="y" type="double">1.74</target-z-offset-m>
+   </config>
+  </view>
+
   <systems>
    <electrical>
     <path>Aircraft/colditz/null-electrical.xml</path>
